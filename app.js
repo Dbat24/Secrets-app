@@ -28,7 +28,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 mongoose
-  .connect("mongodb://localhost:27017/myData")
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("Connected to MongoDB successfully");
   })
