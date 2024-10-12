@@ -17,25 +17,17 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use(
-//   session({
-//     secret: "Our little backstair",
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// );
-
 app.use(
   session({
     secret: 'Our little backstair',
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URI,  // Your MongoDB connection string
+      mongoUrl: process.env.MONGODB_URI,
       collectionName: 'sessions',
     }),
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      maxAge: 1000 * 60 * 60 * 24,
     },
   })
 );
@@ -86,7 +78,7 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/secrets",
+      callbackURL: "https://secrets-app-3vaq.onrender.com",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
     function (accessToken, refreshToken, profile, cb) {
@@ -162,6 +154,7 @@ app.post("/register", (req, res) => {
 });
 
 // Log in existing users
+
 app.post("/login", (req, res) => {
   const user = new User({
     username: req.body.username, // email
